@@ -1,0 +1,7 @@
+(library
+  (name plum_core)
+  (modules raw verify synth))
+
+(env
+  (dev
+    (flags (:standard -w -A))))
