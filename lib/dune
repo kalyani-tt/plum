@@ -1,6 +1,7 @@
 (library
   (name plum_core)
-  (modules raw verify synth))
+  (libraries dynlink findlib)
+  (modules syntax verify toplevel proof_state parsers))
 
 (env
   (dev

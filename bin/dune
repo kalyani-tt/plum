@@ -1,13 +1,7 @@
 (executable
   (public_name plum)
   (libraries plum_core)
-  (modules plum ast grammar lexer parser))
-
-(menhir
-  (modules grammar))
-
-(ocamllex
-  (modules lexer))
+  (modules plum))
 
 (env
   (dev

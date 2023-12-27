@@ -1,11 +1,9 @@
-open Plum_core
+open Plum_core.Toplevel
+open Plum_core.Proof_state
 
-let () =
-    match Sys.getenv_opt "PLUM_INIT" with
-    | Some init_path ->
-        begin match Parser.parse_file init_path with
-        | Ok init ->
-            print_endline "Loaded init file"
-        | Error e -> print_endline ("Could not parse init file: " ^ e)
-        end
-    | None -> print_endline "PLUM_INIT not set"
+let doc =
+"
+load_plugin zarith
+"
+
+let () = interpret doc init_state

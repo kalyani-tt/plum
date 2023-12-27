@@ -1,18 +1,18 @@
-open Raw
+open Syntax
 
-exception NoConv of raw * raw
-exception NotFun of raw
-exception NotSig of raw
-exception NotTyp of raw
-exception NoInfer of raw
+exception NoConv of term * term
+exception NotFun of term
+exception NotSig of term
+exception NotTyp of term
+exception NoInfer of term
 
 let print_errors f =
     try f () with
-    | NoConv (x, y) -> print_endline (string_of_raw x ^ " !<= " ^ string_of_raw y)
-    | NotFun a -> print_endline ("not a function type: " ^ string_of_raw a)
-    | NotSig a -> print_endline ("not a tuple type: " ^ string_of_raw a)
-    | NotTyp a -> print_endline ("not a type: " ^ string_of_raw a)
-    | NoInfer x -> print_endline ("cannot infer type of: " ^ string_of_raw x)
+    | NoConv (x, y) -> print_endline (string_of_term x ^ " !<= " ^ string_of_term y)
+    | NotFun a -> print_endline ("not a function type: " ^ string_of_term a)
+    | NotSig a -> print_endline ("not a tuple type: " ^ string_of_term a)
+    | NotTyp a -> print_endline ("not a type: " ^ string_of_term a)
+    | NoInfer x -> print_endline ("cannot infer type of: " ^ string_of_term x)
 
 let rec lookup i = function
 | Nil -> failwith "ill-scoped"
@@ -31,6 +31,7 @@ let compatible exp inf = match exp, inf with
 | _, _ -> exp = inf
 
 let rec check g tm ty = match tm, ty with
+| Hole _, _ -> ()
 | Lam e, Fun (a, b) ->
     check (shift_ctx 0 (Snoc (g, a))) e b
 | Gen (x, y), Sig (a, b) ->
